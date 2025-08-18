@@ -9,7 +9,6 @@ let numOfGuesses
 let playerGuess
 let targetGuess
 let previousGuesses
-let higherOrLower
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -21,17 +20,27 @@ const playerGuessEl = document.querySelector('#player-guess')
 /*-------------------------------- Functions --------------------------------*/
 
 const checkGuess = () => {
-    return pokedex.some((pokemon) => {
+    const pokedexCheck = pokedex.some((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
+
+    const previousGuessCheck = previousGuesses.some((pokemon) => {
+        return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
+    })
+
+    if (previousGuessCheck) {
+        return false
+    } else {
+        return pokedexCheck
+    }
 }
 
 const addPreviousGuess = () => {
     const guess = pokedex.filter((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
-
-    previousGuesses.push(guess)
+    
+    previousGuesses = [...guess]
 }
 
 const updateMessage = () => {
@@ -40,8 +49,9 @@ const updateMessage = () => {
 
 }
 
-const udpateGuessTracker = () => {
-    
+const updateGuessTracker = () => {
+    numOfGuesses--
+    guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
 }
 
 const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
@@ -118,7 +128,6 @@ const render = () => {
 
 const init = () => {
     numOfGuesses = 5
-    higherOrLower = ''
     previousGuesses = []
     playerGuess = playerGuessEl.value
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
@@ -134,12 +143,12 @@ const handleClick = () => {
         return
 
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase()) {
-        console.log('this works')
+        
         if (checkGuess()) {
             targetGuess = pokedex[34]
             console.log('here')
             addPreviousGuess()
-            numOfGuesses--
+            updateGuessTracker()
             updateGuesses()
             console.log(checkGuess(), numOfGuesses)
             console.log(previousGuesses)
