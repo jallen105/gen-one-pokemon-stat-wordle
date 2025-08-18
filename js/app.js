@@ -8,6 +8,7 @@ import pokedex from './data.js'
 let numOfGuesses
 let playerGuess
 let targetGuess
+let previousGuesses
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -17,36 +18,59 @@ const submitGuessEl = document.querySelector('#submit-guess')
 /*-------------------------------- Functions --------------------------------*/
 
 const checkGuess = () => {
-    pokedex.some((pokemon) => {
-        return pokemon === playerGuess
+    return pokedex.some((pokemon) => {
+        return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
 }
 
-const showGuess = () => {
+const addPreviousGuess = () => {
+    const guess = pokedex.filter((pokemon) => {
+        return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
+    })
 
-    if (playerGuess.toLocalLowerCase() !== targetGuess.name.english.toLocalLowerCase()) {
-        if (checkGuess()) {
+    previousGuesses.push(guess)
+}
 
-        }
-    } else {
-        //player wins
-    }
+const updateMessage = () => {
 
 }
 
-const render = () => {
+const updateGuesses = () => {
     
-    showGuess()
+}
+
+const render = () => {
+    updateMessage()
 }
 
 const init = () => {
     numOfGuesses = 5
-    playerGuess = ''
+    previousGuesses = []
+    playerGuess = 'bulbasaur'
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
     render()
 }
 
 const handleClick = () => {
+    console.log(targetGuess.name.english, numOfGuesses, checkGuess())
+    if (numOfGuesses === 0) {
+        //player loses
+        return
+
+    } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase()) {
+        console.log('this works')
+        if (checkGuess()) {
+            console.log('here')
+            addPreviousGuess()
+            numOfGuesses--
+            console.log(checkGuess(), numOfGuesses)
+            console.log(previousGuesses)
+        } else {
+            return
+        }
+    } else {
+        //player wins
+    }
 
 }
 
@@ -55,4 +79,3 @@ const handleClick = () => {
 submitGuessEl.addEventListener('click', handleClick)
 
 init()
-console.log(targetGuess.name.english)
