@@ -17,6 +17,7 @@ const submitGuessEl = document.querySelector('#submit-guess')
 const guessTrackerEl = document.querySelector('.guess-tracker')
 const playerGuessEl = document.querySelector('#player-guess')
 const messageEl = document.querySelector('.message')
+const dropDownList = document.createElement('datalist')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -89,9 +90,11 @@ const updateGuesses = (guess) => {
     
     guessesEl.append(newGuessEl)
 
-    const guessNameEl = document.createElement('li')
-    newGuessEl.append(guessNameEl)
-    guessNameEl.textContent = currentGuess.name.english
+    const guessPokemonEl = document.createElement('li')
+    newGuessEl.append(guessPokemonEl)
+    const guessImageEl = document.createElement('img')
+    guessPokemonEl.append(guessImageEl)
+    guessImageEl.setAttribute('src', `${currentGuess.image.sprite}`)
     
     const guessTypePrimaryEl = document.createElement('li')
     newGuessEl.append(guessTypePrimaryEl)
@@ -172,6 +175,19 @@ const handleClick = () => {
 /*----------------------------- Event Listeners -----------------------------*/
 
 submitGuessEl.addEventListener('click', handleClick)
+
+playerGuessEl.setAttribute('list', 'pokedex')
+dropDownList.setAttribute('id', 'pokedex')
+document.body.append(dropDownList)
+
+pokedex.forEach((pokemon) => {
+
+    const dropDownOption = document.createElement('option')
+    dropDownList.append(dropDownOption)
+    dropDownOption.setAttribute('value', `${pokemon.name.english}`)
+
+
+})
 
 init()
 

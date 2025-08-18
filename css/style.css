@@ -5,7 +5,11 @@ body {
 
 ul {
     display: flex;
-    justify-content: space-evenly;   
+    justify-content: space-around; 
+    align-items: center;  
     list-style-type: none;
 }
 
+ul li {
+    max-width: 10%;
+}
