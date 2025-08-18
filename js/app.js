@@ -16,23 +16,22 @@ const guessesEl = document.querySelector('.guesses')
 const submitGuessEl = document.querySelector('#submit-guess')
 const guessTrackerEl = document.querySelector('.guess-tracker')
 const playerGuessEl = document.querySelector('#player-guess')
+const messageEl = document.querySelector('.message')
 
 /*-------------------------------- Functions --------------------------------*/
 
 const checkGuess = () => {
-    const pokedexCheck = pokedex.some((pokemon) => {
+    return pokedex.some((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
 
-    const previousGuessCheck = previousGuesses.some((pokemon) => {
+
+}
+
+const checkPreviousGuesses = () => {
+    return previousGuesses.some((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
-
-    if (previousGuessCheck) {
-        return false
-    } else {
-        return pokedexCheck
-    }
 }
 
 const addPreviousGuess = () => {
@@ -45,12 +44,18 @@ const addPreviousGuess = () => {
 
 const updateMessage = () => {
 
-
+    if (numOfGuesses === 0) {
+        messageEl.textContent = `You ran out of guesses! ${targetGuess.name.english} was the Pokémon.`
+        return
+    } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
+        console.log('first')
+        messageEl.textContent = `${targetGuess.name.english} was right!`
+        return
+    }
 
 }
 
 const updateGuessTracker = () => {
-    numOfGuesses--
     guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
 }
 
@@ -122,43 +127,46 @@ const updateGuesses = () => {
     compareBaseStatValue('Base Stat Total', guessBaseStatTotal, targeBaseStatTotal, guessBaseStatTotalEl)
 }
 
-const render = () => {
-    updateMessage()
-}
-
 const init = () => {
     numOfGuesses = 5
     previousGuesses = []
     playerGuess = playerGuessEl.value
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
+    messageEl.textContent = `Whose that Pokémon!`
     guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
-    render()
 }
 
 const handleClick = () => {
-    console.log(targetGuess, numOfGuesses, checkGuess())
+    
+    // click submit check guess then num of guesses
+    numOfGuesses--
     playerGuess = playerGuessEl.value
+    console.log(playerGuess, targetGuess)
     if (numOfGuesses === 0) {
-        //player loses, reveal target pokemon
+        updateGuesses()
+        updateMessage()
+        updateGuessTracker()
         return
 
-    } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase()) {
+    } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses > 0) {
+        updateGuesses()
+        addPreviousGuess()
+        updateMessage()
+        updateGuessTracker()
+        console.log('win')
+    } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase() && numOfGuesses > 0) {
         
-        if (checkGuess()) {
-            targetGuess = pokedex[34]
+        if (checkGuess() && !checkPreviousGuesses()) {
+            
             console.log('here')
             addPreviousGuess()
             updateGuessTracker()
             updateGuesses()
-            console.log(checkGuess(), numOfGuesses)
-            console.log(previousGuesses)
         } else {
             return
         }
-    } else {
-        //player wins
-        updateGuesses()
     }
+    playerGuessEl.value = ''
 
 }
 
