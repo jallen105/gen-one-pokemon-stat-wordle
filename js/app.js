@@ -9,11 +9,14 @@ let numOfGuesses
 let playerGuess
 let targetGuess
 let previousGuesses
+let higherOrLower
 
 /*------------------------ Cached Element References ------------------------*/
 
 const guessesEl = document.querySelector('.guesses')
 const submitGuessEl = document.querySelector('#submit-guess')
+const guessTrackerEl = document.querySelector('.guess-tracker')
+const playerGuessEl = document.querySelector('#player-guess')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -37,40 +40,75 @@ const updateMessage = () => {
 
 }
 
+const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
+    if (guessValue === targetValue) {
+            element.textContent = `${stat}: ${guessValue}`
+            element.style.backgroundColor = 'green'
+        } else if (guessValue > targetValue) {
+            element.textContent = `${stat}: ${guessValue} \u2193`
+        } else {
+            element.textContent = `${stat}: ${guessValue} \u2191`
+        }
+}
+
 const updateGuesses = () => {
 
-    const currentGuess = pokedex.filter((pokemon) => {
+    const currentGuess = pokedex.find((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
 
     const newGuessEl = document.createElement('ul')
+    newGuessEl.setAttribute('class', 'previous-guess')
     
     guessesEl.append(newGuessEl)
-    
-    const guessTypePrimaryField = document.createElement('li')
-    newGuessEl.append(guessTypePrimaryField)
-    guessTypePrimaryField.textContent = `Primary: ${currentGuess[0].type[0]}`
 
-    if (currentGuess[0].type.length < 2) {
-        currentGuess[0].type.push('None')
+    const guessNameEl = document.createElement('li')
+    newGuessEl.append(guessNameEl)
+    guessNameEl.textContent = currentGuess.name.english
+    
+    const guessTypePrimaryEl = document.createElement('li')
+    newGuessEl.append(guessTypePrimaryEl)
+
+    if (currentGuess.type[0] !== targetGuess.type[0]) {
+        guessTypePrimaryEl.style.backgroundColor = 'red'
+    } else {
+        guessTypePrimaryEl.style.backgroundColor = 'green'
+    }
+    
+    guessTypePrimaryEl.textContent = `Primary: ${currentGuess.type[0]}`
+
+    if (currentGuess.type.length < 2) {
+        currentGuess.type.push('None')
+    }
+    if (targetGuess.type.length < 2) {
+        targetGuess.type.push('None')
     }
 
-    const guessTypeSecondaryField = document.createElement('li')
-    newGuessEl.append(guessTypeSecondaryField)
-    guessTypeSecondaryField.textContent = `Secondary: ${currentGuess[0].type[1]}` 
+    const guessTypeSecondaryEl = document.createElement('li')
+    newGuessEl.append(guessTypeSecondaryEl)
+
+    if (currentGuess.type[1] !== targetGuess.type[1]) {
+        guessTypeSecondaryEl.style.backgroundColor = 'red'
+    } else {
+        guessTypeSecondaryEl.style.backgroundColor = 'green'
+    }
+
+    guessTypeSecondaryEl.textContent = `Secondary: ${currentGuess.type[1]}` 
 
 
-    Object.keys(currentGuess[0].base).forEach((stat) => {
+    Object.keys(currentGuess.base).forEach((stat) => {
         const guessStatField = document.createElement('li')
         newGuessEl.append(guessStatField)
-        guessStatField.textContent = `${stat}: ${currentGuess[0].base[stat]}`
+        compareBaseStatValue(stat, currentGuess.base[stat], targetGuess.base[stat], guessStatField)
+        
     })
 
-    const baseStatTotal = Object.values(currentGuess[0].base).reduce((acc, currentValue) => acc + currentValue, 0)
-    
-    const guessBaseStatTotal = document.createElement('li')
-    newGuessEl.append(guessBaseStatTotal)
-    guessBaseStatTotal.textContent = `Base Stat Total: ${baseStatTotal}`
+    const guessBaseStatTotal = Object.values(currentGuess.base).reduce((acc, currentValue) => acc + currentValue, 0)
+    const targeBaseStatTotal = Object.values(targetGuess.base).reduce((acc, currentValue) => acc + currentValue, 0)
+
+    const guessBaseStatTotalEl = document.createElement('li')
+    newGuessEl.append(guessBaseStatTotalEl)
+    compareBaseStatValue('Base Stat Total', guessBaseStatTotal, targeBaseStatTotal, guessBaseStatTotalEl)
 }
 
 const render = () => {
@@ -79,14 +117,16 @@ const render = () => {
 
 const init = () => {
     numOfGuesses = 5
+    higherOrLower = ''
     previousGuesses = []
     playerGuess = 'charmander'
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
+    guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
     render()
 }
 
 const handleClick = () => {
-    console.log(targetGuess.type, numOfGuesses, checkGuess())
+    console.log(targetGuess, numOfGuesses, checkGuess())
     if (numOfGuesses === 0) {
         //player loses, reveal target pokemon
         return
@@ -94,6 +134,7 @@ const handleClick = () => {
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase()) {
         console.log('this works')
         if (checkGuess()) {
+            targetGuess = pokedex[34]
             console.log('here')
             addPreviousGuess()
             numOfGuesses--
@@ -114,3 +155,18 @@ const handleClick = () => {
 submitGuessEl.addEventListener('click', handleClick)
 
 init()
+
+    //   Clefairy
+    //   "HP": 70,
+    //   "Attack": 45,
+    //   "Defense": 48,
+    //   "Sp. Attack": 60,
+    //   "Sp. Defense": 65,
+    //   "Speed": 35
+
+    //       "HP": 39,
+    //   "Attack": 52,
+    //   "Defense": 43,
+    //   "Sp. Attack": 60,
+    //   "Sp. Defense": 50,
+    //   "Speed": 65
