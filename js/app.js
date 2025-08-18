@@ -40,6 +40,10 @@ const updateMessage = () => {
 
 }
 
+const udpateGuessTracker = () => {
+    
+}
+
 const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
     if (guessValue === targetValue) {
             element.textContent = `${stat}: ${guessValue}`
@@ -49,6 +53,15 @@ const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
         } else {
             element.textContent = `${stat}: ${guessValue} \u2191`
         }
+}
+
+const compareTypings = (playerGuess, element, idx) => {
+   if (playerGuess.type[idx] !== targetGuess.type[idx]) {
+        element.style.backgroundColor = 'red'
+    } else {
+        element.style.backgroundColor = 'green'
+    }
+    
 }
 
 const updateGuesses = () => {
@@ -68,13 +81,7 @@ const updateGuesses = () => {
     
     const guessTypePrimaryEl = document.createElement('li')
     newGuessEl.append(guessTypePrimaryEl)
-
-    if (currentGuess.type[0] !== targetGuess.type[0]) {
-        guessTypePrimaryEl.style.backgroundColor = 'red'
-    } else {
-        guessTypePrimaryEl.style.backgroundColor = 'green'
-    }
-    
+    compareTypings(currentGuess, guessTypePrimaryEl, 0)
     guessTypePrimaryEl.textContent = `Primary: ${currentGuess.type[0]}`
 
     if (currentGuess.type.length < 2) {
@@ -86,13 +93,7 @@ const updateGuesses = () => {
 
     const guessTypeSecondaryEl = document.createElement('li')
     newGuessEl.append(guessTypeSecondaryEl)
-
-    if (currentGuess.type[1] !== targetGuess.type[1]) {
-        guessTypeSecondaryEl.style.backgroundColor = 'red'
-    } else {
-        guessTypeSecondaryEl.style.backgroundColor = 'green'
-    }
-
+    compareTypings(currentGuess, guessTypeSecondaryEl, 1)
     guessTypeSecondaryEl.textContent = `Secondary: ${currentGuess.type[1]}` 
 
 
@@ -119,7 +120,7 @@ const init = () => {
     numOfGuesses = 5
     higherOrLower = ''
     previousGuesses = []
-    playerGuess = 'charmander'
+    playerGuess = playerGuessEl.value
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
     guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
     render()
@@ -127,6 +128,7 @@ const init = () => {
 
 const handleClick = () => {
     console.log(targetGuess, numOfGuesses, checkGuess())
+    playerGuess = playerGuessEl.value
     if (numOfGuesses === 0) {
         //player loses, reveal target pokemon
         return
@@ -146,6 +148,7 @@ const handleClick = () => {
         }
     } else {
         //player wins
+        updateGuesses()
     }
 
 }
