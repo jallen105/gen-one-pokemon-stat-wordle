@@ -46,11 +46,10 @@ const updateMessage = () => {
 
     if (numOfGuesses === 0) {
         messageEl.textContent = `You ran out of guesses! ${targetGuess.name.english} was the Pokémon.`
-        return
+        updateGuesses(targetGuess.name.english)
     } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
         console.log('first')
         messageEl.textContent = `${targetGuess.name.english} was right!`
-        return
     }
 
 }
@@ -79,10 +78,10 @@ const compareTypings = (playerGuess, element, idx) => {
     
 }
 
-const updateGuesses = () => {
+const updateGuesses = (guess) => {
 
     const currentGuess = pokedex.find((pokemon) => {
-        return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
+        return pokemon.name.english.toLocaleLowerCase() === guess.toLocaleLowerCase()
     })
 
     const newGuessEl = document.createElement('ul')
@@ -143,13 +142,13 @@ const handleClick = () => {
     playerGuess = playerGuessEl.value
     console.log(playerGuess, targetGuess)
     if (numOfGuesses === 0) {
-        updateGuesses()
+        updateGuesses(playerGuess)
         updateMessage()
         updateGuessTracker()
         return
 
     } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses > 0) {
-        updateGuesses()
+        updateGuesses(playerGuess)
         addPreviousGuess()
         updateMessage()
         updateGuessTracker()
@@ -161,7 +160,7 @@ const handleClick = () => {
             console.log('here')
             addPreviousGuess()
             updateGuessTracker()
-            updateGuesses()
+            updateGuesses(playerGuess)
         } else {
             return
         }
