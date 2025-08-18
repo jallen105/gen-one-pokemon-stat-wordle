@@ -12,7 +12,7 @@ let previousGuesses
 
 /*------------------------ Cached Element References ------------------------*/
 
-const guessesEl = document.querySelectorAll('.guesses')
+const guessesEl = document.querySelector('.guesses')
 const submitGuessEl = document.querySelector('#submit-guess')
 
 /*-------------------------------- Functions --------------------------------*/
@@ -33,10 +33,44 @@ const addPreviousGuess = () => {
 
 const updateMessage = () => {
 
+
+
 }
 
 const updateGuesses = () => {
+
+    const currentGuess = pokedex.filter((pokemon) => {
+        return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
+    })
+
+    const newGuessEl = document.createElement('ul')
     
+    guessesEl.append(newGuessEl)
+    
+    const guessTypePrimaryField = document.createElement('li')
+    newGuessEl.append(guessTypePrimaryField)
+    guessTypePrimaryField.textContent = `Primary: ${currentGuess[0].type[0]}`
+
+    if (currentGuess[0].type.length < 2) {
+        currentGuess[0].type.push('None')
+    }
+
+    const guessTypeSecondaryField = document.createElement('li')
+    newGuessEl.append(guessTypeSecondaryField)
+    guessTypeSecondaryField.textContent = `Secondary: ${currentGuess[0].type[1]}` 
+
+
+    Object.keys(currentGuess[0].base).forEach((stat) => {
+        const guessStatField = document.createElement('li')
+        newGuessEl.append(guessStatField)
+        guessStatField.textContent = `${stat}: ${currentGuess[0].base[stat]}`
+    })
+
+    const baseStatTotal = Object.values(currentGuess[0].base).reduce((acc, currentValue) => acc + currentValue, 0)
+    
+    const guessBaseStatTotal = document.createElement('li')
+    newGuessEl.append(guessBaseStatTotal)
+    guessBaseStatTotal.textContent = `Base Stat Total: ${baseStatTotal}`
 }
 
 const render = () => {
@@ -46,15 +80,15 @@ const render = () => {
 const init = () => {
     numOfGuesses = 5
     previousGuesses = []
-    playerGuess = 'bulbasaur'
+    playerGuess = 'charmander'
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
     render()
 }
 
 const handleClick = () => {
-    console.log(targetGuess.name.english, numOfGuesses, checkGuess())
+    console.log(targetGuess.type, numOfGuesses, checkGuess())
     if (numOfGuesses === 0) {
-        //player loses
+        //player loses, reveal target pokemon
         return
 
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase()) {
@@ -63,6 +97,7 @@ const handleClick = () => {
             console.log('here')
             addPreviousGuess()
             numOfGuesses--
+            updateGuesses()
             console.log(checkGuess(), numOfGuesses)
             console.log(previousGuesses)
         } else {
