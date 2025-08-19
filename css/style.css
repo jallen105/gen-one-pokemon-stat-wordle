@@ -1,6 +1,8 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #1E000E;
+    color: #F4F7BE;
 }
 
 ul {
@@ -16,12 +18,12 @@ ul li {
     display: flex;
     justify-content: start;
     align-items: center;
+    border-radius: 8px;
 }
 
 header {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -33,4 +35,17 @@ main {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+button {
+    background-color: #823038;
+    color: #DEBA6F;
+}
+
+#reset {
+    margin: 10px 0px;
+}
+
+.guess-tracker {
+    font-size: 20px;
 }

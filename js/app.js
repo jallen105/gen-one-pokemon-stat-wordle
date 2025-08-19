@@ -50,12 +50,11 @@ const addPreviousGuess = () => {
 
 const updateMessage = () => {
 
-    if (numOfGuesses === 0) {
+    if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
+        messageEl.textContent = `${targetGuess.name.english} was right!`
+    } else if (numOfGuesses === 0) {
         messageEl.textContent = `You ran out of guesses! ${targetGuess.name.english} was the Pokémon.`
         updateGuesses(targetGuess.name.english)
-    } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
-        console.log('first')
-        messageEl.textContent = `${targetGuess.name.english} was right!`
     }
 
 }
@@ -70,7 +69,7 @@ const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
 
     if (guessValue === targetValue) {
         element.textContent = `${stat}: ${guessValue}`
-        element.style.backgroundColor = 'green'
+        element.style.backgroundColor = 'darkgreen'
     } else if (guessValue > targetValue) {
         element.textContent = `${stat}: ${guessValue} \u2193`
     } else {
@@ -82,11 +81,11 @@ const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
 const compareTypings = (playerGuess, element, idx) => {
 
    if (playerGuess.type[idx] === targetGuess.type[idx]) {
-        element.style.backgroundColor = 'green'
+        element.style.backgroundColor = 'darkgreen'
     } else if (targetGuess.type.some((elementType) => elementType === playerGuess.type[idx])) {
-        element.style.backgroundColor = 'orange'
+        element.style.backgroundColor = 'chocolate'
     } else {
-        element.style.backgroundColor = 'red'
+        element.style.backgroundColor = 'firebrick'
     }
     
 }
@@ -99,7 +98,6 @@ const updateGuesses = (guess) => {
 
     const newGuessEl = document.createElement('ul')
     newGuessEl.setAttribute('class', 'previous-guess')
-    
     guessesEl.append(newGuessEl)
 
     const guessPokemonEl = document.createElement('li')
@@ -168,27 +166,22 @@ const handleClick = () => {
     numOfGuesses--
     playerGuess = playerGuessEl.value
      
-    if (numOfGuesses === 0) {
+    if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses >= 0) {
 
-        updateGuesses(playerGuess)
-        updateMessage()
-        updateGuessTracker()
+        render()
         return
 
-    } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses > 0) {
+    } else if (numOfGuesses === 0) {
         
-        updateGuesses(playerGuess)
-        addPreviousGuess()
-        updateMessage()
-        updateGuessTracker()
-    
+        render()
+        return
+
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase() && numOfGuesses > 0) {
         
         if (checkGuess() && !checkPreviousGuesses()) {
 
-            addPreviousGuess()
-            updateGuessTracker()
-            updateGuesses(playerGuess)
+            render()
+            messageEl.textContent = `You guessed ${playerGuess}`
 
         } else if (checkPreviousGuesses()) {
 
@@ -208,9 +201,7 @@ const handleClick = () => {
 
 }
 
-/*----------------------------- Event Listeners -----------------------------*/
-
-submitGuessEl.addEventListener('click', handleClick)
+const pokeList = () => {
 
 playerGuessEl.setAttribute('list', 'pokedex')
 dropDownList.setAttribute('id', 'pokedex')
@@ -224,6 +215,22 @@ pokedex.forEach((pokemon) => {
 
 })
 
+}
+
+const render = () => {
+    addPreviousGuess()
+    updateGuessTracker()
+    updateMessage()
+    updateGuesses(playerGuess)
+}
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+submitGuessEl.addEventListener('click', handleClick)
 resetBtnEl.addEventListener('click', resetGame)
 
+
+
 init()
+pokeList()
+
