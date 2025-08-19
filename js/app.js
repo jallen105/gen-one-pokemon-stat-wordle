@@ -18,6 +18,7 @@ const guessTrackerEl = document.querySelector('.guess-tracker')
 const playerGuessEl = document.querySelector('#player-guess')
 const messageEl = document.querySelector('.message')
 const dropDownList = document.createElement('datalist')
+const resetBtnEl = document.querySelector('#reset')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -130,41 +131,60 @@ const updateGuesses = (guess) => {
 }
 
 const init = () => {
-    numOfGuesses = 5
+
+    numOfGuesses = 7
     previousGuesses = []
     playerGuess = playerGuessEl.value
     targetGuess = pokedex[Math.floor(Math.random() * (pokedex.length - 1))]
+
     messageEl.textContent = `Whose that Pokémon!`
-    guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
+    guessTrackerEl.textContent = `Remaining Guesses: ${numOfGuesses}`
+
+}
+
+const resetGame = () => {
+    document.querySelectorAll('.previous-guess').forEach((guess) => {
+        guess.remove()
+    })
+    init()
 }
 
 const handleClick = () => {
     
-    // click submit check guess then num of guesses
     numOfGuesses--
     playerGuess = playerGuessEl.value
     console.log(playerGuess, targetGuess)
+    
     if (numOfGuesses === 0) {
+
         updateGuesses(playerGuess)
         updateMessage()
         updateGuessTracker()
         return
 
     } else if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses > 0) {
+        
         updateGuesses(playerGuess)
         addPreviousGuess()
         updateMessage()
         updateGuessTracker()
-        console.log('win')
+    
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase() && numOfGuesses > 0) {
         
         if (checkGuess() && !checkPreviousGuesses()) {
-            
-            console.log('here')
+
             addPreviousGuess()
             updateGuessTracker()
             updateGuesses(playerGuess)
+
+        } else if (checkPreviousGuesses()) {
+
+            numOfGuesses++
+            messageEl.textContent = `${playerGuess} has already been guessed.`
+            return
+
         } else {
+            numOfGuesses++
             return
         }
     }
@@ -189,19 +209,6 @@ pokedex.forEach((pokemon) => {
 
 })
 
+resetBtnEl.addEventListener('click', resetGame)
+
 init()
-
-    //   Clefairy
-    //   "HP": 70,
-    //   "Attack": 45,
-    //   "Defense": 48,
-    //   "Sp. Attack": 60,
-    //   "Sp. Defense": 65,
-    //   "Speed": 35
-
-    //       "HP": 39,
-    //   "Attack": 52,
-    //   "Defense": 43,
-    //   "Sp. Attack": 60,
-    //   "Sp. Defense": 50,
-    //   "Speed": 65
