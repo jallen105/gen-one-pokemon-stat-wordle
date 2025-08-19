@@ -49,10 +49,11 @@ const addPreviousGuess = () => {
 
 }
 
-const updateMessage = () => {
+const checkWin = () => {
 
     if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
         messageEl.textContent = `It was ${targetGuess.name.english}!`
+        win = true  
     } else if (numOfGuesses === 0) {
         messageEl.textContent = `You ran out of guesses! ${targetGuess.name.english} was the Pokémon.`
         updateGuesses(targetGuess.name.english)
@@ -165,41 +166,28 @@ const resetGame = () => {
 
 const handleClick = () => {
     
-    numOfGuesses--
+    
     playerGuess = playerGuessEl.value
      
     if (win) {
+        
         return
-    }
-
-    if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses >= 0) {
-
-        render()
-        win = true                
-
-    } else if (numOfGuesses === 0) {
         
-        render()
-
-    } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase() && numOfGuesses > 0) {
+    } else if (checkGuess() && !checkPreviousGuesses() && numOfGuesses > 0) {
         
-        if (checkGuess() && !checkPreviousGuesses()) {
+        numOfGuesses--
+        render()
+        messageEl.textContent = `You guessed ${playerGuess}`
 
-            render()
-            messageEl.textContent = `You guessed ${playerGuess}`
+    } else if (checkPreviousGuesses() && numOfGuesses > 0) {
 
-        } else if (checkPreviousGuesses()) {
+        messageEl.textContent = `${playerGuess} has already been guessed.`
+        return
 
-            numOfGuesses++
-            messageEl.textContent = `${playerGuess} has already been guessed.`
-            return
+    } else {
 
-        } else {
+        return
 
-            numOfGuesses++
-            return
-
-        }
     }
 
     playerGuessEl.value = ''
@@ -226,7 +214,7 @@ const render = () => {
     addPreviousGuess()
     updateGuessTracker()
     updateGuesses(playerGuess)
-    updateMessage()
+    checkWin()
 }
 
 /*----------------------------- Event Listeners -----------------------------*/

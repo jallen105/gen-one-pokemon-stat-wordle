@@ -70,6 +70,18 @@ button {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    height: 30px;
+    font-size: 16px;
+}
+
+#player-guess {
+    height: 30px;
+    font-family: "Fira Code", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    height: 30px;
 }
 
 #reset {
