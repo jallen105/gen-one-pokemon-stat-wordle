@@ -1,8 +1,30 @@
+.jersey-25-regular {
+  font-family: "Jersey 25", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.fira-code {
+  font-family: "Fira Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 body {
     margin: 0;
     padding: 0;
     background-color: #1E000E;
     color: #F4F7BE;
+
+  font-family: "Fira Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
+
 }
 
 ul {
@@ -13,12 +35,16 @@ ul {
 }
 
 ul li {
-    max-width: 150px;
+    max-width: 170px;
     padding: 0px 15px;
     display: flex;
     justify-content: start;
     align-items: center;
     border-radius: 8px;
+    font-family: "Jersey 25", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
 }
 
 header {
@@ -40,6 +66,10 @@ main {
 button {
     background-color: #823038;
     color: #DEBA6F;
+    font-family: "Fira Code", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 #reset {
