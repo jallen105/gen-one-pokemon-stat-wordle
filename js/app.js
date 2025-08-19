@@ -9,6 +9,7 @@ let numOfGuesses
 let playerGuess
 let targetGuess
 let previousGuesses
+let win
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -51,7 +52,7 @@ const addPreviousGuess = () => {
 const updateMessage = () => {
 
     if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase()) {
-        messageEl.textContent = `${targetGuess.name.english} was right!`
+        messageEl.textContent = `It was ${targetGuess.name.english}!`
     } else if (numOfGuesses === 0) {
         messageEl.textContent = `You ran out of guesses! ${targetGuess.name.english} was the Pokémon.`
         updateGuesses(targetGuess.name.english)
@@ -144,6 +145,7 @@ const updateGuesses = (guess) => {
 
 const init = () => {
 
+    win = false
     numOfGuesses = 7
     previousGuesses = []
     playerGuess = playerGuessEl.value
@@ -166,15 +168,18 @@ const handleClick = () => {
     numOfGuesses--
     playerGuess = playerGuessEl.value
      
+    if (win) {
+        return
+    }
+
     if (playerGuess.toLocaleLowerCase() === targetGuess.name.english.toLocaleLowerCase() && !checkPreviousGuesses() && numOfGuesses >= 0) {
 
         render()
-        return
+        win = true                
 
     } else if (numOfGuesses === 0) {
         
         render()
-        return
 
     } else if (playerGuess.toLocaleLowerCase() !== targetGuess.name.english.toLocaleLowerCase() && numOfGuesses > 0) {
         
@@ -220,8 +225,8 @@ pokedex.forEach((pokemon) => {
 const render = () => {
     addPreviousGuess()
     updateGuessTracker()
-    updateMessage()
     updateGuesses(playerGuess)
+    updateMessage()
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
