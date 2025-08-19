@@ -67,15 +67,15 @@ const updateGuessTracker = () => {
 
 }
 
-const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
+const compareBaseStatValue = (guessValue, targetValue, element) => {
 
     if (guessValue === targetValue) {
-        element.textContent = `${stat}: ${guessValue}`
+        element.textContent = `${guessValue}`
         element.style.backgroundColor = 'darkgreen'
     } else if (guessValue > targetValue) {
-        element.textContent = `${stat}: ${guessValue} \u2193`
+        element.textContent = `${guessValue} \u2193`
     } else {
-        element.textContent = `${stat}: ${guessValue} \u2191`
+        element.textContent = `${guessValue} \u2191`
     }
 
 }
@@ -94,6 +94,7 @@ const compareTypings = (playerGuess, element, idx) => {
 
 const updateGuesses = (guess) => {
 
+    guessesEl.removeAttribute('hidden')
     const currentGuess = pokedex.find((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === guess.toLocaleLowerCase()
     })
@@ -119,18 +120,18 @@ const updateGuesses = (guess) => {
     const guessTypePrimaryEl = document.createElement('li')
     newGuessEl.append(guessTypePrimaryEl)
     compareTypings(currentGuess, guessTypePrimaryEl, 0)
-    guessTypePrimaryEl.textContent = `Primary: ${currentGuess.type[0]}`
+    guessTypePrimaryEl.textContent = `${currentGuess.type[0]}`
 
     const guessTypeSecondaryEl = document.createElement('li')
     newGuessEl.append(guessTypeSecondaryEl)
     compareTypings(currentGuess, guessTypeSecondaryEl, 1)
-    guessTypeSecondaryEl.textContent = `Secondary: ${currentGuess.type[1]}` 
+    guessTypeSecondaryEl.textContent = `${currentGuess.type[1]}` 
 
 
     Object.keys(currentGuess.base).forEach((stat) => {
         const guessStatField = document.createElement('li')
         newGuessEl.append(guessStatField)
-        compareBaseStatValue(stat, currentGuess.base[stat], targetGuess.base[stat], guessStatField)
+        compareBaseStatValue(currentGuess.base[stat], targetGuess.base[stat], guessStatField)
         
     })
 
@@ -140,12 +141,13 @@ const updateGuesses = (guess) => {
     const guessBaseStatTotalEl = document.createElement('li')
 
     newGuessEl.append(guessBaseStatTotalEl)
-    compareBaseStatValue('Base Stat Total', guessBaseStatTotal, targeBaseStatTotal, guessBaseStatTotalEl)
+    compareBaseStatValue(guessBaseStatTotal, targeBaseStatTotal, guessBaseStatTotalEl)
 
 }
 
 const init = () => {
 
+    guessesEl.setAttribute('hidden', '')
     win = false
     numOfGuesses = 7
     previousGuesses = []
