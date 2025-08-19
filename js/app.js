@@ -72,10 +72,12 @@ const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
 }
 
 const compareTypings = (playerGuess, element, idx) => {
-   if (playerGuess.type[idx] !== targetGuess.type[idx]) {
-        element.style.backgroundColor = 'red'
-    } else {
+   if (playerGuess.type[idx] === targetGuess.type[idx]) {
         element.style.backgroundColor = 'green'
+    } else if (targetGuess.type.some((elementType) => elementType === playerGuess.type[idx])) {
+        element.style.backgroundColor = 'orange'
+    } else {
+        element.style.backgroundColor = 'red'
     }
     
 }
