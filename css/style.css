@@ -4,13 +4,33 @@ body {
 }
 
 ul {
-    display: flex;
-    justify-content: space-around; 
-    align-items: center;  
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     list-style-type: none;
+    column-gap: 5px;
 }
 
 ul li {
-    max-width: 10%;
+    max-width: 150px;
+    padding: 0px 15px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }

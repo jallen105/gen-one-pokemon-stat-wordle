@@ -23,25 +23,29 @@ const resetBtnEl = document.querySelector('#reset')
 /*-------------------------------- Functions --------------------------------*/
 
 const checkGuess = () => {
+
     return pokedex.some((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
 
-
 }
 
 const checkPreviousGuesses = () => {
+
     return previousGuesses.some((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
+
 }
 
 const addPreviousGuess = () => {
+
     const guess = pokedex.filter((pokemon) => {
         return pokemon.name.english.toLocaleLowerCase() === playerGuess.toLocaleLowerCase()
     })
     
     previousGuesses = [...guess]
+
 }
 
 const updateMessage = () => {
@@ -57,21 +61,26 @@ const updateMessage = () => {
 }
 
 const updateGuessTracker = () => {
+
     guessTrackerEl.textContent = `Remaining Guesses ${numOfGuesses}`
+
 }
 
 const compareBaseStatValue = (stat, guessValue, targetValue, element) => {
+
     if (guessValue === targetValue) {
-            element.textContent = `${stat}: ${guessValue}`
-            element.style.backgroundColor = 'green'
-        } else if (guessValue > targetValue) {
-            element.textContent = `${stat}: ${guessValue} \u2193`
-        } else {
-            element.textContent = `${stat}: ${guessValue} \u2191`
-        }
+        element.textContent = `${stat}: ${guessValue}`
+        element.style.backgroundColor = 'green'
+    } else if (guessValue > targetValue) {
+        element.textContent = `${stat}: ${guessValue} \u2193`
+    } else {
+        element.textContent = `${stat}: ${guessValue} \u2191`
+    }
+
 }
 
 const compareTypings = (playerGuess, element, idx) => {
+
    if (playerGuess.type[idx] === targetGuess.type[idx]) {
         element.style.backgroundColor = 'green'
     } else if (targetGuess.type.some((elementType) => elementType === playerGuess.type[idx])) {
@@ -95,21 +104,22 @@ const updateGuesses = (guess) => {
 
     const guessPokemonEl = document.createElement('li')
     newGuessEl.append(guessPokemonEl)
+
     const guessImageEl = document.createElement('img')
     guessPokemonEl.append(guessImageEl)
     guessImageEl.setAttribute('src', `${currentGuess.image.sprite}`)
     
-    const guessTypePrimaryEl = document.createElement('li')
-    newGuessEl.append(guessTypePrimaryEl)
-    compareTypings(currentGuess, guessTypePrimaryEl, 0)
-    guessTypePrimaryEl.textContent = `Primary: ${currentGuess.type[0]}`
-
     if (currentGuess.type.length < 2) {
         currentGuess.type.push('None')
     }
     if (targetGuess.type.length < 2) {
         targetGuess.type.push('None')
     }
+
+    const guessTypePrimaryEl = document.createElement('li')
+    newGuessEl.append(guessTypePrimaryEl)
+    compareTypings(currentGuess, guessTypePrimaryEl, 0)
+    guessTypePrimaryEl.textContent = `Primary: ${currentGuess.type[0]}`
 
     const guessTypeSecondaryEl = document.createElement('li')
     newGuessEl.append(guessTypeSecondaryEl)
@@ -128,8 +138,10 @@ const updateGuesses = (guess) => {
     const targeBaseStatTotal = Object.values(targetGuess.base).reduce((acc, currentValue) => acc + currentValue, 0)
 
     const guessBaseStatTotalEl = document.createElement('li')
+
     newGuessEl.append(guessBaseStatTotalEl)
     compareBaseStatValue('Base Stat Total', guessBaseStatTotal, targeBaseStatTotal, guessBaseStatTotalEl)
+
 }
 
 const init = () => {
@@ -155,8 +167,7 @@ const handleClick = () => {
     
     numOfGuesses--
     playerGuess = playerGuessEl.value
-    console.log(playerGuess, targetGuess)
-    
+     
     if (numOfGuesses === 0) {
 
         updateGuesses(playerGuess)
@@ -186,10 +197,13 @@ const handleClick = () => {
             return
 
         } else {
+
             numOfGuesses++
             return
+
         }
     }
+
     playerGuessEl.value = ''
 
 }
@@ -207,7 +221,6 @@ pokedex.forEach((pokemon) => {
     const dropDownOption = document.createElement('option')
     dropDownList.append(dropDownOption)
     dropDownOption.setAttribute('value', `${pokemon.name.english}`)
-
 
 })
 
