@@ -85,7 +85,7 @@ const compareTypings = (playerGuess, element, idx) => {
    if (playerGuess.type[idx] === targetGuess.type[idx]) {
         element.style.backgroundColor = 'darkgreen'
     } else if (targetGuess.type.some((elementType) => elementType === playerGuess.type[idx])) {
-        element.style.backgroundColor = 'chocolate'
+        element.style.backgroundColor = '#aa4f0d'
     } else {
         element.style.backgroundColor = 'firebrick'
     }
@@ -172,7 +172,7 @@ const handleClick = () => {
     if (win) {
         
         return
-        
+
     } else if (checkGuess() && !checkPreviousGuesses() && numOfGuesses > 0) {
         
         numOfGuesses--

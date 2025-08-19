@@ -91,3 +91,19 @@ button {
 .guess-tracker {
     font-size: 20px;
 }
+
+#instructions {
+    text-align: center;
+}
+
+.orange {
+    background-color: #aa4f0d;
+}
+
+.darkgreen {
+    background-color: darkgreen;
+}
+
+.firebrick {
+    background-color: firebrick;
+}
