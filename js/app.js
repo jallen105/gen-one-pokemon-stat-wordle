@@ -109,6 +109,7 @@ const updateGuesses = (guess) => {
     const guessImageEl = document.createElement('img')
     guessPokemonEl.append(guessImageEl)
     guessImageEl.setAttribute('src', `${currentGuess.image.sprite}`)
+    guessImageEl.setAttribute('alt', `${currentGuess.name.english}`)
     
     if (currentGuess.type.length < 2) {
         currentGuess.type.push('None')
