@@ -29,8 +29,12 @@ The arrows will indicate whether the stat is higher or lower.
 * JavaScript
 * [Coolors.co](https://coolors.co/)
 * Visual Studio Code
+* Google Fonts 
+    * Fira Code 
+    * Jersey 25
 
 ## Future Enhancements
 
 Update the dropdown list to be an autocomplete dropdown and provide some stats with the pokemon name.  
-Expand data set to include more Pokémon generations.
+Expand data set to include more Pokémon generations.  
+Let user limit what information they see.

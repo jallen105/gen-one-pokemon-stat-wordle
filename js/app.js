@@ -169,7 +169,6 @@ const resetGame = () => {
 
 const handleClick = () => {
     
-    
     playerGuess = playerGuessEl.value
      
     if (win) {
