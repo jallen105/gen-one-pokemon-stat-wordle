@@ -18,12 +18,16 @@
 
         <section id="instructions">
             Guess a Pokémon.<br>
-            <span class="darkgreen">Green</span> background means that the typing or stat matches.<br>
-            <span class="orange">Orange</span> background means that the typing exists but wrong place.<br>
-            <span class="firebrick">Red</span> background means the type does not match.<br>
+            <span class="green-dark">Green</span> background means that the typing or stat matches.<br>
+            <span class="orange-dark">Orange</span> background means that the typing exists but wrong place.<br>
+            <span class="red-dark">Red</span> background means the type does not match.<br>
             The arrows will indicate whether the stat is higher or lower.
         </section>
-        <button id="reset">New Game</button>
+        <div>        
+            <button class="btn-dark" id="reset">New Game</button>
+            <button class="btn-dark" id="light-mode">Light</button>
+        </div>
+
         <h2 class="message"></h2>
         <div class="guess-tracker">
 
@@ -33,7 +37,7 @@
     <main>
         <div class="input-container">
             <input type="text" id="player-guess">
-            <button type="submit" id="submit-guess">Submit Guess</button>
+            <button type="submit" class="btn-dark" id="submit-guess">Submit Guess</button>
         </div>
         <div class="guesses">            
             <ul class="field-row">

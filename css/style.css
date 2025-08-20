@@ -3,7 +3,6 @@ body {
     padding: 0;
     background-color: #1E000E;
     color: #F4F7BE;
-
     font-family: "Fira Code", monospace;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -51,8 +50,7 @@ main {
 }
 
 button {
-    background-color: #823038;
-    color: #DEBA6F;
+
     font-family: "Fira Code", monospace;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -83,14 +81,36 @@ button {
     text-align: center;
 }
 
-.orange {
+.orange-dark {
     background-color: #aa4f0d;
 }
 
-.darkgreen {
+.green-dark {
     background-color: darkgreen;
 }
 
-.firebrick {
+.red-dark {
     background-color: firebrick;
+}
+
+.btn-dark{
+    background-color: #DEBA6F;
+    color: #823038;
+}
+
+.orange-light {
+    background-color: coral;
+}
+
+.green-light {
+    background-color: green;
+}
+
+.red-light {
+    background-color: red;
+}
+
+.btn-light {
+    color: #DEBA6F;
+    background-color: #823038;
 }

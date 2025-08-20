@@ -10,6 +10,10 @@ let playerGuess
 let targetGuess
 let previousGuesses
 let win
+let light
+let orange
+let red
+let green
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -20,6 +24,10 @@ const playerGuessEl = document.querySelector('#player-guess')
 const messageEl = document.querySelector('.message')
 const dropDownList = document.createElement('datalist')
 const resetBtnEl = document.querySelector('#reset')
+const btnEls = document.querySelectorAll('button')
+const lightBtnEl = document.querySelector('#light-mode')
+
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -71,7 +79,7 @@ const compareBaseStatValue = (guessValue, targetValue, element) => {
 
     if (guessValue === targetValue) {
         element.textContent = `${guessValue}`
-        element.style.backgroundColor = 'darkgreen'
+        element.classList.add(green)
     } else if (guessValue > targetValue) {
         element.textContent = `${guessValue} \u2193`
     } else {
@@ -83,11 +91,11 @@ const compareBaseStatValue = (guessValue, targetValue, element) => {
 const compareTypings = (playerGuess, element, idx) => {
 
    if (playerGuess.type[idx] === targetGuess.type[idx]) {
-        element.style.backgroundColor = 'darkgreen'
+        element.classList.add(green)
     } else if (targetGuess.type.some((elementType) => elementType === playerGuess.type[idx])) {
-        element.style.backgroundColor = '#aa4f0d'
+        element.classList.add(orange)
     } else {
-        element.style.backgroundColor = 'firebrick'
+        element.classList.add(red)
     }
     
 }
@@ -148,6 +156,11 @@ const updateGuesses = (guess) => {
 
 const init = () => {
 
+    light = false
+
+    green = 'green-dark'
+    orange = 'orange-dark'
+    red = 'red-dark'
     guessesEl.setAttribute('hidden', '')
     win = false
     numOfGuesses = 7
@@ -178,8 +191,9 @@ const handleClick = () => {
     } else if (checkGuess() && !checkPreviousGuesses() && numOfGuesses > 0) {
         
         numOfGuesses--
-        render()
         messageEl.textContent = `You guessed ${playerGuess}`
+        render()
+
 
     } else if (checkPreviousGuesses() && numOfGuesses > 0) {
 
@@ -193,6 +207,48 @@ const handleClick = () => {
     }
 
     playerGuessEl.value = ''
+
+}
+
+const handleLightClick = () => {
+    !light ? light = true : light = false
+    const allColoredEls = document.querySelectorAll('span, li')
+    
+    if (light) {
+        lightBtnEl.textContent = 'Dark'
+        green = 'green-light'
+        red = 'red-light'
+        orange = 'orange-light'
+        document.body.style.color = '#1E000E'
+        document.body.style.backgroundColor = '#F4F7BE'
+        btnEls.forEach((btn) => btn.classList.replace('btn-dark', 'btn-light'))
+        allColoredEls.forEach((element) => {
+            if (element.classList.contains('green-dark')) {
+                element.classList.replace('green-dark', 'green-light')
+            } else if (element.classList.contains('orange-dark')) {
+                element.classList.replace('orange-dark', 'orange-light')
+            } else if (element.classList.contains('red-dark')) {
+                element.classList.replace('red-dark', 'red-light')
+            }
+        })
+    } else {
+        lightBtnEl.textContent = 'Light'
+        green = 'green-dark'
+        red = 'red-dark'
+        orange = 'orange-dark'
+        document.body.style.color = '#F4F7BE'
+        document.body.style.backgroundColor = '#1E000E'
+        btnEls.forEach((btn) => btn.classList.replace('btn-light', 'btn-dark'))
+        allColoredEls.forEach((element) => {
+            if (element.classList.contains('green-light')) {
+                element.classList.replace('green-light', 'green-dark')
+            } else if (element.classList.contains('orange-light')) {
+                element.classList.replace('orange-light', 'orange-dark')
+            } else if (element.classList.contains('red-light')) {
+                element.classList.replace('red-light', 'red-dark')
+            }
+        })
+}
 
 }
 
@@ -223,8 +279,7 @@ const render = () => {
 
 submitGuessEl.addEventListener('click', handleClick)
 resetBtnEl.addEventListener('click', resetGame)
-
-
+lightBtnEl.addEventListener('click', handleLightClick)
 
 init()
 pokeList()
