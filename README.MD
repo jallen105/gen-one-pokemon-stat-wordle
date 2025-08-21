@@ -2,8 +2,6 @@
 
 ![game picture](./assets/game-picture.png)  
 
-### Play the game here
-
 ## Background
 
 I chose a Pokémon Wordle game to help demonstrate everything that I have learned in Unit 1 of my General Assembly Software Engineering Bootcamp. This browser game requires you to iterate through arrays and objects. I used Flex box and CSS Grid to position the content. Manipulating the DOM to inject the guesses on screen.
@@ -27,9 +25,10 @@ The arrows will indicate whether the stat is higher or lower.
 * HTML
 * CSS
 * JavaScript
+* [Data set](https://github.com/Purukitto/pokemon-data.json/blob/master/pokedex.json)
 * [Coolors.co](https://coolors.co/)
-* Visual Studio Code
-* Google Fonts 
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Google Fonts](https://fonts.google.com/) 
     * Fira Code 
     * Jersey 25
 

@@ -136,7 +136,6 @@ const updateGuesses = (guess) => {
     compareTypings(currentGuess, guessTypeSecondaryEl, 1)
     guessTypeSecondaryEl.textContent = `${currentGuess.type[1]}` 
 
-
     Object.keys(currentGuess.base).forEach((stat) => {
         const guessStatField = document.createElement('li')
         newGuessEl.append(guessStatField)
@@ -211,18 +210,22 @@ const handleClick = () => {
 }
 
 const handleLightClick = () => {
+
     !light ? light = true : light = false
     const allColoredEls = document.querySelectorAll('span, li')
     
     if (light) {
-        lightBtnEl.textContent = 'Dark'
+
+        lightBtnEl.textContent = 'Dark Mode'
         green = 'green-light'
         red = 'red-light'
         orange = 'orange-light'
         document.body.style.color = '#1E000E'
         document.body.style.backgroundColor = '#F4F7BE'
+
         btnEls.forEach((btn) => btn.classList.replace('btn-dark', 'btn-light'))
         allColoredEls.forEach((element) => {
+
             if (element.classList.contains('green-dark')) {
                 element.classList.replace('green-dark', 'green-light')
             } else if (element.classList.contains('orange-dark')) {
@@ -230,14 +233,18 @@ const handleLightClick = () => {
             } else if (element.classList.contains('red-dark')) {
                 element.classList.replace('red-dark', 'red-light')
             }
+
         })
+
     } else {
-        lightBtnEl.textContent = 'Light'
+
+        lightBtnEl.textContent = 'Light Mode'
         green = 'green-dark'
         red = 'red-dark'
         orange = 'orange-dark'
         document.body.style.color = '#F4F7BE'
         document.body.style.backgroundColor = '#1E000E'
+
         btnEls.forEach((btn) => btn.classList.replace('btn-light', 'btn-dark'))
         allColoredEls.forEach((element) => {
             if (element.classList.contains('green-light')) {
@@ -247,24 +254,26 @@ const handleLightClick = () => {
             } else if (element.classList.contains('red-light')) {
                 element.classList.replace('red-light', 'red-dark')
             }
+
         })
-}
+
+    }
 
 }
 
 const pokeList = () => {
 
-playerGuessEl.setAttribute('list', 'pokedex')
-dropDownList.setAttribute('id', 'pokedex')
-document.body.append(dropDownList)
+    playerGuessEl.setAttribute('list', 'pokedex')
+    dropDownList.setAttribute('id', 'pokedex')
+    document.body.append(dropDownList)
 
-pokedex.forEach((pokemon) => {
+    pokedex.forEach((pokemon) => {
 
-    const dropDownOption = document.createElement('option')
-    dropDownList.append(dropDownOption)
-    dropDownOption.setAttribute('value', `${pokemon.name.english}`)
+        const dropDownOption = document.createElement('option')
+        dropDownList.append(dropDownOption)
+        dropDownOption.setAttribute('value', `${pokemon.name.english}`)
 
-})
+    })
 
 }
 
