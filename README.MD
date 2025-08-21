@@ -2,6 +2,8 @@
 
 ![game picture](./assets/game-picture.png)  
 
+### Play the game [here](https://jallen105.github.io/gen-one-pokemon-stat-wordle/)
+
 ## Background
 
 I chose a Pokémon Wordle game to help demonstrate everything that I have learned in Unit 1 of my General Assembly Software Engineering Bootcamp. This browser game requires you to iterate through arrays and objects. I used Flex box and CSS Grid to position the content. Manipulating the DOM to inject the guesses on screen.
